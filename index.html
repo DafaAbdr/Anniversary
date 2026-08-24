@@ -1,34 +1,3 @@
-<?php
-date_default_timezone_set('Asia/Jakarta');
-
-// Tanggal jadian
-$mulai = new DateTime('2025-08-25');
-$sekarang = new DateTime('now');
-$selisih = $mulai->diff($sekarang);
-
-$hariBersama = (int) $sekarang->diff($mulai)->days;
-$sudahSetahun = $sekarang >= new DateTime('2026-08-25');
-
-$tanggalIndo = function ($date) {
-    $bulan = [
-        1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-    ];
-    return $date->format('j') . ' ' . $bulan[(int)$date->format('n')] . ' ' . $date->format('Y');
-};
-
-$galeri = [
-    ['src' => 'img/foto2.jpg', 'caption' => 'Dari foto sederhana ini, dimulai cerita indah tentang kita yang sampai hari ini masih terus berjalan bersama.'],
-    ['src' => 'img/foto3.jpg', 'caption' => 'Senyum yang selalu aku tunggu dan selalu aku jaga.'],
-    ['src' => 'img/foto6.jpg', 'caption' => 'Selalu ingin ada disamping kamu dan menjaga kamu.'],
-    ['src' => 'img/foto1.jpg', 'caption' => 'Bersamamu, hal sederhana pun selalu terasa lebih seru dan penuh keceriaan.'],
-    ['src' => 'img/foto4.jpg', 'caption' => 'Di antara banyak hal yang kulihat setiap hari, memandangmu tetap menjadi salah satu yang paling aku suka.'],
-    ['src' => 'img/foto5.jpg', 'caption' => 'Dibalik keindahanmu, selalu ada alasan bagiku untuk jatuh cinta terus'],
-    ['src' => 'img/foto7.jpg', 'caption' => 'Sesederhana menikmati es krim bersama, tapi bersamamu momen kecil selalu terasa begitu manis.'],
-    ['src' => 'img/foto9.jpg', 'caption' => 'Melihat senyummu selalu jadi salah satu hal sederhana yang paling aku syukuri dalam perjalanan kita.'],
-    ['src' => 'img/foto8.jpg', 'caption' => 'Bahkan saat kamu ngambek, tetap saja kamu adalah seseorang yang ingin selalu aku dekati dan sayangi.🤍'],
-];
-?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -599,10 +568,10 @@ $galeri = [
     <div class="names">Dafa <span class="amp">&amp;</span> Larisa</div>
 
     <div class="counter-card">
-      <div class="counter-num"><?= $hariBersama ?></div> <br>
+      <div class="counter-num" id="hariBersama">0</div> <br>
       <div class="counter-label">Days Together</div>
       <div class="counter-date">
-        Since <b><?= $tanggalIndo($mulai) ?></b><br>
+        Since <b id="tanggalMulai">25 Agustus 2025</b><br>
         and Many More to Come
       </div>
     </div>
@@ -649,23 +618,46 @@ $galeri = [
   <div class="section-title">Galeri Kita</div>
   <div class="section-heading">Kepingan Kenangan</div>
   <div class="galeri-grid">
-    <?php
-      $kolomKiri = [];
-      $kolomKanan = [];
-      foreach ($galeri as $i => $foto) {
-          if ($i % 2 === 0) { $kolomKiri[] = $foto; } else { $kolomKanan[] = $foto; }
-      }
-      $renderKolom = function ($kolom) {
-          foreach ($kolom as $foto) {
-              echo '<figure class="polaroid">';
-              echo '<img src="' . htmlspecialchars($foto['src']) . '" alt="' . htmlspecialchars($foto['caption']) . '" loading="lazy">';
-              echo '<figcaption>' . htmlspecialchars($foto['caption']) . '</figcaption>';
-              echo '</figure>';
-          }
-      };
-    ?>
-    <div class="galeri-col"><?php $renderKolom($kolomKiri); ?></div>
-    <div class="galeri-col"><?php $renderKolom($kolomKanan); ?></div>
+    <div class="galeri-col">
+      <figure class="polaroid">
+        <img src="img/foto2.jpg" alt="Dari foto sederhana ini, dimulai cerita indah tentang kita yang sampai hari ini masih terus berjalan bersama." loading="lazy">
+        <figcaption>Dari foto sederhana ini, dimulai cerita indah tentang kita yang sampai hari ini masih terus berjalan bersama.</figcaption>
+      </figure>
+      <figure class="polaroid">
+        <img src="img/foto6.jpg" alt="Selalu ingin ada disamping kamu dan menjaga kamu." loading="lazy">
+        <figcaption>Selalu ingin ada disamping kamu dan menjaga kamu.</figcaption>
+      </figure>
+      <figure class="polaroid">
+        <img src="img/foto4.jpg" alt="Di antara banyak hal yang kulihat setiap hari, memandangmu tetap menjadi salah satu yang paling aku suka." loading="lazy">
+        <figcaption>Di antara banyak hal yang kulihat setiap hari, memandangmu tetap menjadi salah satu yang paling aku suka.</figcaption>
+      </figure>
+      <figure class="polaroid">
+        <img src="img/foto7.jpg" alt="Sesederhana menikmati es krim bersama, tapi bersamamu momen kecil selalu terasa begitu manis." loading="lazy">
+        <figcaption>Sesederhana menikmati es krim bersama, tapi bersamamu momen kecil selalu terasa begitu manis.</figcaption>
+      </figure>
+      <figure class="polaroid">
+        <img src="img/foto8.jpg" alt="Bahkan saat kamu ngambek, tetap saja kamu adalah seseorang yang ingin selalu aku dekati dan sayangi.🤍" loading="lazy">
+        <figcaption>Bahkan saat kamu ngambek, tetap saja kamu adalah seseorang yang ingin selalu aku dekati dan sayangi.🤍</figcaption>
+      </figure>
+    </div>
+    <div class="galeri-col">
+      <figure class="polaroid">
+        <img src="img/foto3.jpg" alt="Senyum yang selalu aku tunggu dan selalu aku jaga." loading="lazy">
+        <figcaption>Senyum yang selalu aku tunggu dan selalu aku jaga.</figcaption>
+      </figure>
+      <figure class="polaroid">
+        <img src="img/foto1.jpg" alt="Bersamamu, hal sederhana pun selalu terasa lebih seru dan penuh keceriaan." loading="lazy">
+        <figcaption>Bersamamu, hal sederhana pun selalu terasa lebih seru dan penuh keceriaan.</figcaption>
+      </figure>
+      <figure class="polaroid">
+        <img src="img/foto5.jpg" alt="Dibalik keindahanmu, selalu ada alasan bagiku untuk jatuh cinta terus" loading="lazy">
+        <figcaption>Dibalik keindahanmu, selalu ada alasan bagiku untuk jatuh cinta terus</figcaption>
+      </figure>
+      <figure class="polaroid">
+        <img src="img/foto9.jpg" alt="Melihat senyummu selalu jadi salah satu hal sederhana yang paling aku syukuri dalam perjalanan kita." loading="lazy">
+        <figcaption>Melihat senyummu selalu jadi salah satu hal sederhana yang paling aku syukuri dalam perjalanan kita.</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -693,6 +685,23 @@ $galeri = [
         <span></span>
     </span>
 </button>
+
+
+<script>
+(function () {
+    const mulai = new Date('2025-08-25T00:00:00+07:00');
+    const sekarang = new Date();
+
+    const hariBersama = Math.floor(
+        (sekarang.getTime() - mulai.getTime()) / (1000 * 60 * 60 * 24)
+    );
+
+    document.getElementById('hariBersama').textContent =
+        Math.max(0, hariBersama).toLocaleString('id-ID');
+
+    document.getElementById('tanggalMulai').textContent = '25 Agustus 2025';
+})();
+</script>
 
 <script>
 (function () {
