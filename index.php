@@ -1,0 +1,736 @@
+<?php
+date_default_timezone_set('Asia/Jakarta');
+
+// Tanggal jadian
+$mulai = new DateTime('2025-08-25');
+$sekarang = new DateTime('now');
+$selisih = $mulai->diff($sekarang);
+
+$hariBersama = (int) $sekarang->diff($mulai)->days;
+$sudahSetahun = $sekarang >= new DateTime('2026-08-25');
+
+$tanggalIndo = function ($date) {
+    $bulan = [
+        1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+    return $date->format('j') . ' ' . $bulan[(int)$date->format('n')] . ' ' . $date->format('Y');
+};
+
+$galeri = [
+    ['src' => 'img/foto2.jpg', 'caption' => 'Dari foto sederhana ini, dimulai cerita indah tentang kita yang sampai hari ini masih terus berjalan bersama.'],
+    ['src' => 'img/foto3.jpg', 'caption' => 'Senyum yang selalu aku tunggu dan selalu aku jaga.'],
+    ['src' => 'img/foto6.jpg', 'caption' => 'Selalu ingin ada disamping kamu dan menjaga kamu.'],
+    ['src' => 'img/foto1.jpg', 'caption' => 'Bersamamu, hal sederhana pun selalu terasa lebih seru dan penuh keceriaan.'],
+    ['src' => 'img/foto4.jpg', 'caption' => 'Di antara banyak hal yang kulihat setiap hari, memandangmu tetap menjadi salah satu yang paling aku suka.'],
+    ['src' => 'img/foto5.jpg', 'caption' => 'Dibalik keindahanmu, selalu ada alasan bagiku untuk jatuh cinta terus'],
+    ['src' => 'img/foto7.jpg', 'caption' => 'Sesederhana menikmati es krim bersama, tapi bersamamu momen kecil selalu terasa begitu manis.'],
+    ['src' => 'img/foto9.jpg', 'caption' => 'Melihat senyummu selalu jadi salah satu hal sederhana yang paling aku syukuri dalam perjalanan kita.'],
+    ['src' => 'img/foto8.jpg', 'caption' => 'Bahkan saat kamu ngambek, tetap saja kamu adalah seseorang yang ingin selalu aku dekati dan sayangi.🤍'],
+];
+?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Satu Tahun Bersama — Dafa &amp; Larisa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lilac-bg:#f6f1fb;
+    --lilac-bg-2:#eee3f7;
+    --lilac-mid:#b79cd6;
+    --lilac-deep:#8c6bb8;
+    --plum:#4a3363;
+    --plum-soft:#6d5288;
+    --blush:#f4dcec;
+    --gold:#c9a45f;
+    --ink:#3f3352;
+    --paper:#fffdfb;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+  body{
+    font-family:'Jost', -apple-system, BlinkMacSystemFont, sans-serif;
+    background:var(--lilac-bg);
+    color:var(--ink);
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- LILY ICON ---------- */
+  .lily-defs{position:absolute;width:0;height:0;overflow:hidden;}
+  .lily-icon{display:block;overflow:visible;}
+  .lily-icon.lg{width:76px;height:110px;margin:0 auto;}
+  .lily-icon.md{width:40px;height:58px;}
+  .lily-icon.sm{width:26px;height:38px;}
+  .lily-corner{
+    position:absolute;
+    opacity:0.9;
+    pointer-events:none;
+    z-index:1;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:40;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:16px 20px;
+    background:linear-gradient(180deg, rgba(246,241,251,0.97) 0%, rgba(246,241,251,0.8) 75%, transparent 100%);
+  }
+  .nav-inner{
+    width:100%;
+    max-width:600px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .nav-brand{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:19px;
+    color:var(--plum);
+    font-weight:600;
+    letter-spacing:0.02em;
+  }
+  .nav-brand .amp{color:var(--gold);}
+  .nav-links{
+    display:flex;
+    gap:6px;
+    background:var(--paper);
+    border-radius:999px;
+    padding:5px;
+    box-shadow:0 8px 18px -10px rgba(74,51,99,0.35);
+  }
+  .nav-links a{
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--plum-soft);
+    padding:7px 13px;
+    border-radius:999px;
+    transition:background 0.25s, color 0.25s;
+  }
+  .nav-links a:hover, .nav-links a:active{
+    background:var(--lilac-mid);
+    color:#fff;
+  }
+  @media (max-width:380px){
+    .nav-links a{padding:6px 9px;font-size:10px;}
+  }
+
+  /* ---------- HEARTS DIVIDER ---------- */
+  .string-divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:6px 24px 34px;
+    color:var(--lilac-mid);
+  }
+  .string-divider .line{
+    flex:1;
+    max-width:90px;
+    height:1px;
+    background:repeating-linear-gradient(90deg, var(--lilac-mid) 0 4px, transparent 4px 9px);
+  }
+  .string-divider .heart{
+    font-size:13px;
+    color:var(--gold);
+  }
+
+  /* ---------- FLOATING MUSIC BUTTON ---------- */
+  .music-toggle{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    z-index:50;
+    width:52px;height:52px;
+    border-radius:50%;
+    background:var(--paper);
+    border:1px solid #ecdcf6;
+    box-shadow:0 14px 26px -12px rgba(74,51,99,0.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:var(--lilac-deep);
+  }
+  .music-toggle svg{width:20px;height:20px;}
+  .music-toggle .bar{
+    display:flex;
+    align-items:flex-end;
+    gap:2.5px;
+    height:16px;
+  }
+  .music-toggle .bar span{
+    display:block;
+    width:3px;
+    background:var(--lilac-deep);
+    border-radius:2px;
+    animation:eq 0.9s ease-in-out infinite;
+    animation-play-state:paused;
+  }
+  .music-toggle.playing .bar span{animation-play-state:running;}
+  .music-toggle .bar span:nth-child(1){height:6px;animation-delay:0s;}
+  .music-toggle .bar span:nth-child(2){height:16px;animation-delay:0.15s;}
+  .music-toggle .bar span:nth-child(3){height:10px;animation-delay:0.3s;}
+  @keyframes eq{
+    0%,100%{transform:scaleY(0.4);}
+    50%{transform:scaleY(1);}
+  }
+  .music-toggle:not(.playing) .bar span{transform:scaleY(0.4);}
+  h1,h2,h3,.serif{
+    font-family:'Cormorant Garamond', Georgia, serif;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  .wrap{max-width:520px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    min-height:100svh;
+    background:
+      radial-gradient(circle at 50% 0%, #efe1fa 0%, var(--lilac-bg) 55%),
+      linear-gradient(180deg, var(--lilac-bg-2) 0%, var(--lilac-bg) 100%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:48px 24px 64px;
+    overflow:hidden;
+  }
+  .petals{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+  .petal{
+    position:absolute;
+    top:-40px;
+    width:14px;height:14px;
+    background:var(--lilac-mid);
+    opacity:0.55;
+    border-radius:0 50% 50% 50%;
+    animation:fall linear infinite;
+  }
+  .petal:nth-child(1){left:8%; animation-duration:13s; animation-delay:0s; background:var(--blush); transform:rotate(20deg); width:11px;height:11px;}
+  .petal:nth-child(2){left:22%; animation-duration:16s; animation-delay:2s;}
+  .petal:nth-child(3){left:38%; animation-duration:11s; animation-delay:4s; background:var(--gold); width:9px;height:9px;}
+  .petal:nth-child(4){left:55%; animation-duration:15s; animation-delay:1s; background:var(--blush);}
+  .petal:nth-child(5){left:70%; animation-duration:12s; animation-delay:3s;}
+  .petal:nth-child(6){left:85%; animation-duration:17s; animation-delay:5s; background:var(--gold); width:10px;height:10px;}
+  .petal:nth-child(7){left:92%; animation-duration:14s; animation-delay:0.5s;}
+  @keyframes fall{
+    0%{transform:translateY(-5vh) rotate(0deg);}
+    100%{transform:translateY(105vh) rotate(220deg);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .petal{animation:none; display:none;}
+  }
+
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--lilac-deep);
+    font-weight:500;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:44px;
+    font-weight:500;
+    font-style:italic;
+    color:var(--plum);
+    line-height:1.12;
+    margin-bottom:14px;
+  }
+  .hero h1 em{
+    display:block;
+    font-style:normal;
+    font-weight:600;
+    color:var(--lilac-deep);
+  }
+  .hero .names{
+    font-size:19px;
+    letter-spacing:0.03em;
+    color:var(--plum-soft);
+    margin-bottom:36px;
+  }
+  .hero .names .amp{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    color:var(--gold);
+    padding:0 6px;
+  }
+
+  .counter-card{
+    background:var(--paper);
+    border-radius:22px;
+    padding:28px 30px;
+    box-shadow:0 20px 40px -18px rgba(74,51,99,0.35);
+    border:1px solid #ece0f7;
+    position:relative;
+    width:100%;
+  }
+  .counter-num{
+    font-family:'Cormorant Garamond', serif;
+    font-size:68px;
+    font-weight:600;
+    color:var(--lilac-deep);
+    line-height:1;
+  }
+  .counter-label{
+    font-size:13px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--plum-soft);
+    margin-top:6px;
+  }
+  .counter-date{
+    margin-top:16px;
+    padding-top:16px;
+    border-top:1px dashed #d9c6ea;
+    font-size:13px;
+    color:var(--plum-soft);
+  }
+  .counter-date b{color:var(--plum);font-weight:500;}
+
+  .scroll-hint{
+    margin-top:40px;
+    font-size:12px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--lilac-mid);
+  }
+  .scroll-hint::after{
+    content:'';
+    display:block;
+    width:1px;height:26px;
+    background:var(--lilac-mid);
+    margin:10px auto 0;
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{padding:76px 0;}
+  .section-title{
+    font-size:13px;
+    letter-spacing:0.24em;
+    text-transform:uppercase;
+    color:var(--lilac-deep);
+    font-weight:500;
+    text-align:center;
+    margin-bottom:10px;
+  }
+  .section-heading{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:32px;
+    font-weight:500;
+    color:var(--plum);
+    text-align:center;
+    margin-bottom:44px;
+  }
+
+  /* ---------- SURAT ---------- */
+  .surat-section{
+    background:linear-gradient(180deg, var(--lilac-bg) 0%, var(--blush) 100%);
+  }
+  .surat{
+    background:var(--paper);
+    border-radius:4px 20px 20px 4px;
+    padding:38px 30px 34px;
+    box-shadow:0 24px 50px -24px rgba(74,51,99,0.4);
+    position:relative;
+    border-left:3px solid var(--gold);
+  }
+  .surat::before{
+    content:'❦';
+    position:absolute;
+    top:-18px;left:26px;
+    background:var(--paper);
+    color:var(--gold);
+    font-size:20px;
+    width:36px;height:36px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 14px -6px rgba(74,51,99,0.3);
+  }
+  .surat-salam{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:26px;
+    color:var(--lilac-deep);
+    font-weight:600;
+    margin-bottom:18px;
+  }
+  .surat p{
+    font-size:15.5px;
+    color:var(--ink);
+    margin-bottom:16px;
+  }
+  .surat .tanda-tangan{
+    margin-top:22px;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:22px;
+    color:var(--plum);
+    text-align:right;
+  }
+
+  /* ---------- GALERI (masonry 2 kolom, foto tidak terpotong) ---------- */
+  .galeri-grid{
+    display:flex;
+    gap:18px;
+    padding:10px 22px 10px;
+  }
+  .galeri-col{
+    flex:1;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+  }
+  .polaroid{
+    width:100%;
+    margin-bottom:22px;
+    background:var(--paper);
+    padding:9px 9px 18px;
+    border-radius:2px;
+    box-shadow:0 16px 30px -16px rgba(74,51,99,0.4);
+  }
+  .polaroid:nth-child(4n+1){transform:rotate(-2.5deg);}
+  .polaroid:nth-child(4n+2){transform:rotate(2deg);}
+  .polaroid:nth-child(4n+3){transform:rotate(-1.5deg);}
+  .polaroid:nth-child(4n+4){transform:rotate(2.5deg);}
+  .polaroid img{
+    width:100%;
+    height:auto;
+    display:block;
+    border-radius:1px;
+    filter:saturate(0.94) contrast(1.02);
+  }
+  .polaroid figcaption{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:14px;
+    color:var(--plum-soft);
+    text-align:center;
+    margin-top:9px;
+    line-height:1.3;
+  }
+  @media (min-width:600px){
+    .galeri-grid{padding:10px 30px 10px;}
+  }
+
+  /* ---------- KISAH KITA ---------- */
+  .kisah-section{
+    background:var(--lilac-bg);
+    position:relative;
+  }
+  .date-box{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--paper);
+    border:1px solid #ecdcf6;
+    border-radius:12px;
+    padding:10px 18px;
+    box-shadow:0 14px 26px -16px rgba(74,51,99,0.35);
+    margin:0 auto 24px;
+    font-size:14px;
+    letter-spacing:0.08em;
+    color:var(--plum);
+    font-weight:500;
+  }
+  .date-box .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+  .kisah-center{text-align:center;}
+  .kisah-text{
+    font-size:15px;
+    color:var(--ink);
+    text-align:center;
+    max-width:440px;
+    margin:0 auto 34px;
+  }
+  .kisah-strip{
+    display:flex;
+    gap:12px;
+    padding:0 22px;
+  }
+  .kisah-strip .frame{
+    flex:1;
+    background:var(--paper);
+    padding:6px;
+    border-radius:3px;
+    box-shadow:0 12px 22px -14px rgba(74,51,99,0.4);
+  }
+  .kisah-strip .frame .ph{
+    position:relative;
+    width:100%;
+    padding-top:100%;
+    background:#f2e9fa;
+    border-radius:1px;
+    overflow:hidden;
+  }
+  .kisah-strip .frame .ph img{
+    position:absolute;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+  }
+  .kisah-strip .frame:nth-child(1){transform:rotate(-3deg);}
+  .kisah-strip .frame:nth-child(2){transform:rotate(1.5deg);margin-top:10px;}
+  .kisah-strip .frame:nth-child(3){transform:rotate(-1.5deg);}
+
+  /* ---------- QUOTE / CLOSING ---------- */
+  .closing{
+    text-align:center;
+    background:linear-gradient(180deg, var(--blush) 0%, var(--lilac-bg-2) 100%);
+  }
+  .closing .mark{
+    font-family:'Cormorant Garamond', serif;
+    font-size:56px;
+    color:var(--gold);
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .closing p.quote{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:24px;
+    color:var(--plum);
+    line-height:1.5;
+    margin-bottom:10px;
+    padding:0 8px;
+  }
+  .closing .sub{
+    font-size:13.5px;
+    color:var(--plum-soft);
+    letter-spacing:0.02em;
+  }
+
+  .status-pill{
+    display:inline-block;
+    margin-top:28px;
+    padding:10px 22px;
+    border-radius:999px;
+    background:var(--paper);
+    color:var(--lilac-deep);
+    font-size:12.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-weight:500;
+    box-shadow:0 12px 24px -14px rgba(74,51,99,0.4);
+  }
+
+  footer{
+    padding:38px 24px 44px;
+    text-align:center;
+    font-size:12px;
+    color:var(--lilac-mid);
+    letter-spacing:0.1em;
+  }
+  footer .heart{color:var(--gold);}
+
+  @media (min-width:600px){
+    .wrap{max-width:600px;}
+    .hero h1{font-size:56px;}
+    .counter-num{font-size:82px;}
+  }
+
+  @media (max-width:359px){
+    .hero h1{font-size:36px;}
+    .counter-num{font-size:56px;}
+    .surat{padding:30px 22px 26px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Definisi ikon bunga lily, dipakai ulang lewat <use> -->
+<svg class="lily-defs" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="petalGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#e3cdf5"/>
+      <stop offset="100%" stop-color="#fdfbff"/>
+    </linearGradient>
+    <symbol id="lily" viewBox="0 0 100 150">
+      <g stroke="#b79cd6" stroke-width="0.8" fill="none" opacity="0.8">
+        <path d="M50 148 C 47 120 46 85 50 62"/>
+        <path d="M50 122 C 38 117 30 106 25 96"/>
+        <path d="M50 110 C 63 105 71 95 76 86"/>
+      </g>
+      <g transform="translate(50,60)">
+        <g transform="rotate(0)"><path d="M0,0 C-7,-20 -5,-38 0,-48 C5,-38 7,-20 0,0 Z" fill="url(#petalGrad)" stroke="#c9b3e0" stroke-width="0.6"/></g>
+        <g transform="rotate(60)"><path d="M0,0 C-7,-20 -5,-38 0,-48 C5,-38 7,-20 0,0 Z" fill="url(#petalGrad)" stroke="#c9b3e0" stroke-width="0.6"/></g>
+        <g transform="rotate(120)"><path d="M0,0 C-7,-20 -5,-38 0,-48 C5,-38 7,-20 0,0 Z" fill="url(#petalGrad)" stroke="#c9b3e0" stroke-width="0.6"/></g>
+        <g transform="rotate(180)"><path d="M0,0 C-7,-20 -5,-38 0,-48 C5,-38 7,-20 0,0 Z" fill="url(#petalGrad)" stroke="#c9b3e0" stroke-width="0.6"/></g>
+        <g transform="rotate(240)"><path d="M0,0 C-7,-20 -5,-38 0,-48 C5,-38 7,-20 0,0 Z" fill="url(#petalGrad)" stroke="#c9b3e0" stroke-width="0.6"/></g>
+        <g transform="rotate(300)"><path d="M0,0 C-7,-20 -5,-38 0,-48 C5,-38 7,-20 0,0 Z" fill="url(#petalGrad)" stroke="#c9b3e0" stroke-width="0.6"/></g>
+        <circle r="4.5" fill="#c9a45f"/>
+        <circle r="1.6" cx="6" cy="-2" fill="#8c6bb8"/>
+        <circle r="1.6" cx="-6" cy="-2" fill="#8c6bb8"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<section class="hero">
+  <div class="petals" aria-hidden="true">
+    <span class="petal"></span><span class="petal"></span><span class="petal"></span>
+    <span class="petal"></span><span class="petal"></span><span class="petal"></span><span class="petal"></span>
+  </div>
+  <svg class="lily-icon sm lily-corner" style="top:14%; left:6%; transform:rotate(-18deg);"><use href="#lily" xlink:href="#lily"></use></svg>
+  <svg class="lily-icon sm lily-corner" style="bottom:8%; right:7%; transform:rotate(14deg);"><use href="#lily" xlink:href="#lily"></use></svg>
+
+  <div class="wrap">
+    <svg class="lily-icon lg"><use href="#lily" xlink:href="#lily"></use></svg> <br>
+    <div class="eyebrow">Happy Anniversary Sayang</div>
+    <h1>1 Year<em>of Us</em></h1>
+    <div class="names">Dafa <span class="amp">&amp;</span> Larisa</div>
+
+    <div class="counter-card">
+      <div class="counter-num"><?= $hariBersama ?></div> <br>
+      <div class="counter-label">Days Together</div>
+      <div class="counter-date">
+        Since <b><?= $tanggalIndo($mulai) ?></b><br>
+        and Many More to Come
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="string-divider" aria-hidden="true">
+  <span class="line"></span><span class="heart">♥</span>
+  <span class="line"></span><span class="heart">♥</span>
+  <span class="line"></span>
+</div>
+
+<section class="kisah-section" id="kisah">
+  <div class="wrap kisah-center">
+    <div class="section-title">Our Story</div>
+    <div class="section-heading">Dari Titik Awal</div>
+    <div class="date-box"><span class="dot"></span> 25 Agustus 2025</div>
+    <p class="kisah-text">Di sinilah semuanya dimulai — obrolan yang tidak selesai-selesai, janji-janji kecil, dan satu keputusan untuk saling memilih. Dari situ, hari-hari biasa perlahan berubah jadi kenangan yang paling ingin kita putar ulang.</p>
+  </div>
+  <div class="kisah-strip">
+    <div class="frame"><div class="ph"><img src="img/foto3.jpg" alt="Kisah kita" loading="lazy"></div></div>
+    <div class="frame"><div class="ph"><img src="img/foto1.jpg" alt="Kisah kita" loading="lazy"></div></div>
+    <div class="frame"><div class="ph"><img src="img/foto2.jpg" alt="Kisah kita" loading="lazy"></div></div>
+  </div>
+</section>
+
+<section class="surat-section" id="surat">
+  <div class="wrap">
+    <svg class="lily-icon md" style="margin:0 auto 8px;"><use href="#lily" xlink:href="#lily"></use></svg>
+    <div class="section-title">For Larisa ❤︎</div>
+    <div class="section-heading">Little Message for my Baby❤︎</div>
+
+    <div class="surat">
+      <div class="surat-salam">Selamat Anniversary, Sayang ❤️</div>
+      <p>Satu tahun terasa singkat kalau diceritakan, tapi penuh kalau dijalani. Dari hari pertama sampai hari ini, kamu selalu jadi alasan untuk aku berjuang.</p>
+      <p>Terima kasih sudah tetap memilih aku di setiap keadaan, bukan hanya saat semuanya terasa indah. Terima kasih sudah menjadi tempat pulang yang selalu aku cari, tempat di mana aku bisa menjadi diriku sendiri, merasa dicintai, dan menemukan tenang hanya dengan berada di dekatmu.</p>
+      <p>Semoga tahun-tahun berikutnya kita jalani dengan cara yang sama: pelan-pelan, jujur, dan selalu berdua.</p>
+      <div class="tanda-tangan">— Dafa</div>
+    </div>
+  </div>
+</section>
+
+<section class="galeri-section" id="galeri">
+  <div class="section-title">Galeri Kita</div>
+  <div class="section-heading">Kepingan Kenangan</div>
+  <div class="galeri-grid">
+    <?php
+      $kolomKiri = [];
+      $kolomKanan = [];
+      foreach ($galeri as $i => $foto) {
+          if ($i % 2 === 0) { $kolomKiri[] = $foto; } else { $kolomKanan[] = $foto; }
+      }
+      $renderKolom = function ($kolom) {
+          foreach ($kolom as $foto) {
+              echo '<figure class="polaroid">';
+              echo '<img src="' . htmlspecialchars($foto['src']) . '" alt="' . htmlspecialchars($foto['caption']) . '" loading="lazy">';
+              echo '<figcaption>' . htmlspecialchars($foto['caption']) . '</figcaption>';
+              echo '</figure>';
+          }
+      };
+    ?>
+    <div class="galeri-col"><?php $renderKolom($kolomKiri); ?></div>
+    <div class="galeri-col"><?php $renderKolom($kolomKanan); ?></div>
+  </div>
+</section>
+
+<div class="string-divider" aria-hidden="true">
+  <span class="line"></span><span class="heart">♥</span>
+  <span class="line"></span><span class="heart">♥</span>
+  <span class="line"></span>
+</div>
+
+<section class="closing">
+  <div class="wrap">
+    <svg class="lily-icon md" style="margin:0 auto 10px;"><use href="#lily" xlink:href="#lily"></use></svg>
+    <div class="mark">❝</div>
+    <p class="quote">Dari semua hari dalam hidupku, aku paling suka hari-hari yang ada kamu di dalamnya.</p>
+    <div class="sub">- Dafa</div>
+    <div class="status-pill">Satu tahun, dan masih ingin selamanya sama kamu.</div>
+  </div>
+</section>
+
+<audio id="bgm" src="audio/lagu-kita.mp3" loop preload="auto"></audio>
+<button class="music-toggle" id="musicToggle" type="button" aria-label="Putar / jeda musik">
+    <span class="bar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </span>
+</button>
+
+<script>
+(function () {
+    const audio = document.getElementById('bgm');
+    const btn = document.getElementById('musicToggle');
+    let playing = false;
+    let started = false;
+
+    function mulaiMusik() {
+        if (started) return;
+        audio.play().then(function () {
+            playing = true;
+            started = true;
+            btn.classList.add('playing');
+
+            document.removeEventListener('pointerdown', mulaiMusik);
+            document.removeEventListener('touchstart', mulaiMusik);
+            document.removeEventListener('scroll', mulaiMusik);
+            document.removeEventListener('keydown', mulaiMusik);
+        }).catch(function (error) {
+            console.log('Musik belum bisa diputar:', error);
+        });
+    }
+
+    document.addEventListener('pointerdown', mulaiMusik, {
+        passive: true
+    });
+    document.addEventListener('touchstart', mulaiMusik, {
+        passive: true
+    });
+    document.addEventListener('scroll', mulaiMusik, {
+        passive: true
+    });
+    document.addEventListener('keydown', mulaiMusik, {
+        passive: true
+    });
+})();
+</script>
+
+</body>
+</html>
